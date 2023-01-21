@@ -1,0 +1,42 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      <img [src]="'../../assets/f1-logo-new.png'">
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="openSettings()">
+        <ion-icon slot="icon-only" name="list-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">F1 Teams:</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <!-- Loop of observable array -->
+  <ng-container *ngFor="let item$ of team$">
+    <!-- card component with weather from API, open detail actions -->
+    <ion-card *ngIf="item$ | async; let team" routerLink="/detail" (click)="openDetail(team)">
+      <!-- card show only if data (observable) downloaded from server | async in if -->
+      <!-- let weather = data injected from if async state -->
+      <ion-card-header>
+        <ion-card-subtitle>{{team.response[0].name}}</ion-card-subtitle>
+        <!-- show data -->
+        <ion-card-title>
+          <ion-row class="ion-no-padding ion-align-items-center">
+            <ion-col class="ion-no-padding">
+              <img [src]="team.response[0].logo">
+            </ion-col>
+          </ion-row>
+        </ion-card-title>
+      </ion-card-header>
+
+
+    </ion-card>
+  </ng-container>
+</ion-content>

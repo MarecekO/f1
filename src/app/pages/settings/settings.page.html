@@ -1,0 +1,23 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Choose teams:</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismiss()">
+        Close
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- Set as form group -->
+  <ion-list [formGroup]="form">
+    <!-- Loop places -->
+    <ion-item *ngFor="let stable of stables; let i = index">
+      <!-- Set value with formControlName used in formGroup (controller) -->
+      <ion-checkbox slot="start" [value]="i" formControlName="ch{{i + 1}}"></ion-checkbox>
+      <!-- Set place name for orientation -->
+      <ion-label>{{stable.name}}</ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>
