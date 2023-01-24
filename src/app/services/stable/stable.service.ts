@@ -50,12 +50,12 @@ export class StableService {
     {
       id: 2,
       name: 'McLaren',
-      homepage: false
+      homepage: true
     },
     {
       id: 3,
       name: 'Ferrari',
-      homepage: true
+      homepage: false
     },
     {
       id: 5,
@@ -94,12 +94,18 @@ export class StableService {
     }
   ];
 
-  private privatePlacesSubject = new ReplaySubject<Stable[]>(1);
+  private privateStablesSubject = new ReplaySubject<Stable[]>(1);
 
   constructor(
     private storageService: StorageService
   ) {
-    this.init();
+    this.storageService.getData('stables').then(stables=> {
+      if (stables) {
+        this.privateStablesSubject.next(stables);
+      } else {
+        this.privateStablesSubject.next(this.privateStables);
+      }
+    });
   }
 
   /**
@@ -110,20 +116,11 @@ export class StableService {
   }
 
   get stables$() {
-    return this.privatePlacesSubject.asObservable();
+    return this.privateStablesSubject.asObservable();
   }
-
-  async init() {
-    let places = await this.storageService.getData('stables');
-    if (!places) {
-      places = this.privateStables;
-    }
-    this.privatePlacesSubject.next(places);
-  }
-
   async setHome(index: number, active: boolean) {
     this.privateStables[index].homepage = active;
     await this.storageService.saveData('stables', this.privateStables);
-    this.privatePlacesSubject.next(this.privateStables);
+    this.privateStablesSubject.next(this.privateStables);
   }
 }
