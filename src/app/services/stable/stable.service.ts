@@ -12,6 +12,7 @@ export interface Stable {
 @Injectable({
   providedIn: 'root'
 })
+//Detail page template
 export class StableService {
   detail: TeamResponse = {
     get: 'teams',
@@ -40,7 +41,7 @@ export class StableService {
         tyres: 'Pirelli'}
     ],
   };
-
+  //Only included stables from API, that are now active
   private privateStables: Stable[] = [
     {
       id: 1,
@@ -114,10 +115,11 @@ export class StableService {
   get stables(): Stable[] {
     return this.privateStables;
   }
-
+  //Return observable of stables
   get stables$() {
     return this.privateStablesSubject.asObservable();
   }
+  //Set home func to set active check box onto homescreen, save it into storage aswell
   async setHome(index: number, active: boolean) {
     this.privateStables[index].homepage = active;
     await this.storageService.saveData('stables', this.privateStables);

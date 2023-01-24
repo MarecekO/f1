@@ -8,7 +8,7 @@ export class StorageService {
 
   constructor() {
   }
-
+  //Saves data into json string, using capacitor/preferences
   async saveData(key: string, data: any) {
     await Preferences.set({
       key,
